@@ -48,13 +48,13 @@ void identifyBiggestSquare(Map* self)
     // Handle the 0th row
     row = get_next_row(self);
     self->nums_cols = _strlen(row);
-    uint sizes[self->nums_cols];
+    uint sizes[self->nums_cols + 1];
     sizes[0] = 0;
     for (uint j = 0; j < self->nums_cols; j++) {
         if (row[j] == FREE) {
             sizes[j + 1] = 1;
             self->biggest_square->setSize(self->biggest_square, 1);
-            self->biggest_square->setTopLeft(self->biggest_square, 0, j);
+            self->biggest_square->setBottomRight(self->biggest_square, 0, j);
         } else {
             sizes[j + 1] = 0;
         }
@@ -72,7 +72,7 @@ void identifyBiggestSquare(Map* self)
                 sizes[j + 1] = min((int[]){prev, sizes[j], sizes[j + 1]}, 3) + 1;
                 if (sizes[j + 1] > self->biggest_square->size) {
                     self->biggest_square->setSize(self->biggest_square, sizes[j + 1]);
-                    self->biggest_square->setTopLeft(self->biggest_square, i - self->biggest_square->size + 1, j - self->biggest_square->size + 1);
+                    self->biggest_square->setBottomRight(self->biggest_square, i, j);
                 }
             } else {
                 sizes[j + 1] = 0;

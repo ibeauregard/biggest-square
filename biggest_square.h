@@ -10,7 +10,7 @@ typedef struct s_biggest_square {
     Coordinates *top_left;
 
     void (*setSize)(struct s_biggest_square* self, uint size);
-    void (*setTopLeft)(struct s_biggest_square* self, uint i, uint j);
+    void (*setBottomRight)(struct s_biggest_square* self, uint i, uint j);
     void (*delete)(struct s_biggest_square* self);
 } BiggestSquare;
 
