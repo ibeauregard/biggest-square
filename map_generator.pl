@@ -19,7 +19,7 @@ while ($i < $y)
   $j = 0;
   while ($j < $x)
   {
-    if (int(rand($y)*2) < $density)
+    if (rand(100) < $density)
     {
       print "o";
     }
