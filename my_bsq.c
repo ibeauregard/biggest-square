@@ -73,9 +73,8 @@ int my_bsq(const char* map_path)
     readline(map_fd);
     for (uint i = 0; i < num_rows; i++) {
         row = readline(map_fd);
-        for (uint j = 0; j < num_cols; j++) {
-            if (top_left_i <= i && i < top_left_i + max_len
-                && top_left_j <= j && j < top_left_j + max_len) {
+        for (uint j = top_left_j; j < top_left_j + max_len; j++) {
+            if (top_left_i <= i && i < top_left_i + max_len) {
                 row[j] = 'x';
             }
         }
