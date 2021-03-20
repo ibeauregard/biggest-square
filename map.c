@@ -5,8 +5,8 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-static void delete(Map* self);
 static void set_num_rows(Map* self);
+static void delete(Map* self);
 
 Map* new_map_from_path(const char* map_path)
 {
