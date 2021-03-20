@@ -2,10 +2,6 @@
 #include "map.h"
 #include <stdlib.h>
 
-#define FREE '.'
-
-typedef unsigned int uint;
-
 int my_bsq(const char* map_path)
 {
     Map *map = new_map_from_path(map_path);
