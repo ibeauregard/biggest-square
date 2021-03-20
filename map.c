@@ -45,16 +45,12 @@ void print(Map* self)
 {
     go_to_start(self);
     skip_one_line(self);
-    if (self->biggest_square->size > 0) {
-        uint start = 0, stop = self->biggest_square->top_left->i;
-        print_regular_rows_between(self, start, stop);
-        start = stop; stop = start + self->biggest_square->size;
-        print_biggest_square_rows_between(self, start, stop);
-        start = stop; stop = self->num_rows;
-        print_regular_rows_between(self, start, stop);
-    } else {
-        print_regular_rows_between(self, 0, self->num_rows);
-    }
+    uint start = 0, stop = self->biggest_square->top_left->i;
+    print_regular_rows_between(self, start, stop);
+    start = stop; stop = start + self->biggest_square->size;
+    print_biggest_square_rows_between(self, start, stop);
+    start = stop; stop = self->num_rows;
+    print_regular_rows_between(self, start, stop);
 }
 
 void go_to_start(Map* self)
