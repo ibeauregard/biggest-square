@@ -8,6 +8,10 @@ typedef unsigned int uint;
 typedef struct s_biggest_square {
     uint size;
     Coordinates *top_left;
+
+    void (*delete)(struct s_biggest_square* self);
 } BiggestSquare;
+
+BiggestSquare* new_biggest_square();
 
 #endif
