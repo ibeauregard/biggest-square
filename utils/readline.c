@@ -17,13 +17,13 @@ typedef struct {
     char array[BUFSIZ];
 } ReadBuffer;
 
-ushort fill(ReadBuffer* buffer, int fd);
-void reset_index(ReadBuffer* buffer);
-ushort newline_index(ReadBuffer* buffer, int fd);
-ushort scan_until_newline(const ReadBuffer* buffer, ushort i);
-void add_newline(ReadBuffer* buffer, ushort i);
-char* pop(ReadBuffer* buffer, ushort n);
-void offset(ReadBuffer* buffer, ushort n);
+static ushort fill(ReadBuffer* buffer, int fd);
+static void reset_index(ReadBuffer* buffer);
+static ushort newline_index(ReadBuffer* buffer, int fd);
+static ushort scan_until_newline(const ReadBuffer* buffer, ushort i);
+static void add_newline(ReadBuffer* buffer, ushort i);
+static char* pop(ReadBuffer* buffer, ushort n);
+static void offset(ReadBuffer* buffer, ushort n);
 
 char* readline(int fd)
 {
