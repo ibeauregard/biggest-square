@@ -30,16 +30,16 @@ int my_bsq(const char* map_path)
     // Handle the 0th row
     row = readline(map_fd);
     uint num_cols = _strlen(row);
-    uint sized[num_cols];
-    sized[0] = 0;
+    uint sizes[num_cols];
+    sizes[0] = 0;
     for (uint j = 0; j < num_cols; j++) {
         if (row[j] == FREE) {
-            sized[j + 1] = 1;
+            sizes[j + 1] = 1;
             max_len = 1;
             top_left_i = 0;
             top_left_j = j;
         } else {
-            sized[j + 1] = 0;
+            sizes[j + 1] = 0;
         }
     }
     free(row);
@@ -50,16 +50,16 @@ int my_bsq(const char* map_path)
     for (uint i = 1; i < num_rows; i++) {
         row = readline(map_fd);
         for (uint j = 0; j < num_cols; j++) {
-            curr = sized[j + 1];
+            curr = sizes[j + 1];
             if (row[j] == FREE) {
-                sized[j + 1] = min((int[]){prev, sized[j], sized[j + 1]}, 3) + 1;
-                if (sized[j + 1] > max_len) {
-                    max_len = sized[j + 1];
+                sizes[j + 1] = min((int[]){prev, sizes[j], sizes[j + 1]}, 3) + 1;
+                if (sizes[j + 1] > max_len) {
+                    max_len = sizes[j + 1];
                     top_left_i = i - max_len + 1;
                     top_left_j = j - max_len + 1;
                 }
             } else {
-                sized[j + 1] = 0;
+                sizes[j + 1] = 0;
             }
             prev = curr;
         }
