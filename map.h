@@ -8,9 +8,9 @@ typedef struct s_map {
     uint num_rows;
     uint nums_cols;
 
-    void (*identifyBiggestSquare)(Map* self);
-    void (*print)(Map* self);
-    void (*delete)(Map* self);
+    void (*identifyBiggestSquare)(struct s_map* self);
+    void (*print)(struct s_map* self);
+    void (*delete)(struct s_map* self);
 } Map;
 
 Map* new_map_from_path(const char* map_path);
