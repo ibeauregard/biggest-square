@@ -68,19 +68,38 @@ int my_bsq(const char* map_path)
 
     // Now let's print the map!
 
-    // First, go back to beginning of file, skip one line
+    // First, go back to beginning of file
     lseek(map_fd, 0, SEEK_SET);
+    // Skip one line
     readline(map_fd);
-    for (uint i = 0; i < num_rows; i++) {
-        row = readline(map_fd);
-        for (uint j = top_left_j; j < top_left_j + max_len; j++) {
-            if (top_left_i <= i && i < top_left_i + max_len) {
+    if (max_len > 0) {
+        uint i;
+        for (i = 0; i < top_left_i; i++) {
+            row = readline(map_fd);
+            printf("%s\n", row);
+            free(row);
+        }
+        for (; i < top_left_i + max_len; i++) {
+            row = readline(map_fd);
+            for (uint j = top_left_j; j < top_left_j + max_len; j++) {
                 row[j] = 'x';
             }
+            printf("%s\n", row);
+            free(row);
         }
-        printf("%s\n", row);
-        free(row);
+        for (; i < num_rows; i++) {
+            row = readline(map_fd);
+            printf("%s\n", row);
+            free(row);
+        }
+    } else {
+        for (uint i = 0; i < num_rows; i++) {
+            row = readline(map_fd);
+            printf("%s\n", row);
+            free(row);
+        }
     }
+
 
     close(map_fd);
     return EXIT_SUCCESS;
