@@ -1,3 +1,4 @@
 my_bsq
 *.o
-.idea
+.idea/
+cmake-build-debug/
