@@ -42,6 +42,8 @@ char* get_next_row(Map* self)
     return readline(self->fd);
 }
 
+static void handle_row(Map* self, char* row, uint i, uint* sizes);
+
 void identifyBiggestSquare(Map* self)
 {
     char* row;
@@ -49,37 +51,33 @@ void identifyBiggestSquare(Map* self)
     row = get_next_row(self);
     self->nums_cols = _strlen(row);
     uint sizes[self->nums_cols + 1];
-    sizes[0] = 0;
-    for (uint j = 0; j < self->nums_cols; j++) {
-        if (row[j] == FREE) {
-            sizes[j + 1] = 1;
-            self->biggest_square->setSize(self->biggest_square, 1);
-            self->biggest_square->setBottomRight(self->biggest_square, 0, j);
-        } else {
-            sizes[j + 1] = 0;
-        }
-    }
+    for (uint i = 0; i < self->nums_cols + 1; i++) sizes[i] = 0;
+    handle_row(self, row, 0, sizes);
     free(row);
 
     // Handle the rest of the rows (1, 2, ..., num_rows - 1)
-    uint prev = 0;
-    uint curr;
     for (uint i = 1; i < self->num_rows; i++) {
         row = get_next_row(self);
-        for (uint j = 0; j < self->nums_cols; j++) {
-            curr = sizes[j + 1];
-            if (row[j] == FREE) {
-                sizes[j + 1] = min((int[]){prev, sizes[j], sizes[j + 1]}, 3) + 1;
-                if (sizes[j + 1] > self->biggest_square->size) {
-                    self->biggest_square->setSize(self->biggest_square, sizes[j + 1]);
-                    self->biggest_square->setBottomRight(self->biggest_square, i, j);
-                }
-            } else {
-                sizes[j + 1] = 0;
-            }
-            prev = curr;
-        }
+        handle_row(self, row, i, sizes);
         free(row);
+    }
+}
+
+void handle_row(Map* self, char* row, uint i, uint* sizes)
+{
+    uint prev = 0, curr;
+    for (uint j = 0; j < self->nums_cols; j++) {
+        curr = sizes[j + 1];
+        if (row[j] == FREE) {
+            sizes[j + 1] = min((int[]){prev, sizes[j], sizes[j + 1]}, 3) + 1;
+            if (sizes[j + 1] > self->biggest_square->size) {
+                self->biggest_square->setSize(self->biggest_square, sizes[j + 1]);
+                self->biggest_square->setBottomRight(self->biggest_square, i, j);
+            }
+        } else {
+            sizes[j + 1] = 0;
+        }
+        prev = curr;
     }
 }
 
