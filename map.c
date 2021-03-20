@@ -12,6 +12,7 @@ Map* new_map_from_path(const char* map_path)
 {
     Map* map = malloc(sizeof (Map));
     map->fd = open(map_path, O_RDONLY);
+    map->biggest_square = new_biggest_square();
     set_num_rows(map);
 
     map->delete = &delete;
@@ -34,6 +35,7 @@ char* get_next_row(Map* self)
 
 void delete(Map* self)
 {
+    self->biggest_square->delete(self->biggest_square);
     close(self->fd);
     free(self);
 }
