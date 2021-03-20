@@ -1,8 +1,8 @@
 #include "biggest_square.h"
 #include <stdlib.h>
 
-static void setSize(BiggestSquare * self, uint size);
-static void setTopLeft(BiggestSquare * self, uint i, uint j);
+static void setSize(BiggestSquare* self, uint size);
+static void setTopLeft(BiggestSquare* self, uint i, uint j);
 static void delete(BiggestSquare* self);
 
 BiggestSquare* new_biggest_square()
@@ -16,12 +16,12 @@ BiggestSquare* new_biggest_square()
     return bsq;
 }
 
-void setSize(BiggestSquare * self, uint size)
+void setSize(BiggestSquare* self, uint size)
 {
     self->size = size;
 }
 
-void setTopLeft(BiggestSquare * self, uint i, uint j)
+void setTopLeft(BiggestSquare* self, uint i, uint j)
 {
     self->top_left->i = i;
     self->top_left->j = j;
