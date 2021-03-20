@@ -1,12 +1,17 @@
 #include "map.h"
 #include "utils/readline.h"
 #include "utils/_atoi.h"
+#include "utils/_strlen.h"
+#include "utils/min.h"
 #include <stdlib.h>
 #include <fcntl.h>
 #include <unistd.h>
 #include <stdio.h>
 
+#define FREE '.'
+
 static void set_num_rows(Map* self);
+static void identifyBiggestSquare(Map* self);
 static void print(Map* self);
 static void delete(Map* self);
 
@@ -17,6 +22,7 @@ Map* new_map_from_path(const char* map_path)
     map->biggest_square = new_biggest_square();
     set_num_rows(map);
 
+    map->identifyBiggestSquare = &identifyBiggestSquare;
     map->print = &print;
     map->delete = &delete;
     return map;
@@ -34,6 +40,47 @@ void set_num_rows(Map* self)
 char* get_next_row(Map* self)
 {
     return readline(self->fd);
+}
+
+void identifyBiggestSquare(Map* self)
+{
+    char* row;
+    // Handle the 0th row
+    row = get_next_row(self);
+    self->nums_cols = _strlen(row);
+    uint sizes[self->nums_cols];
+    sizes[0] = 0;
+    for (uint j = 0; j < self->nums_cols; j++) {
+        if (row[j] == FREE) {
+            sizes[j + 1] = 1;
+            self->biggest_square->setSize(self->biggest_square, 1);
+            self->biggest_square->setTopLeft(self->biggest_square, 0, j);
+        } else {
+            sizes[j + 1] = 0;
+        }
+    }
+    free(row);
+
+    // Handle the rest of the rows (1, 2, ..., num_rows - 1)
+    uint prev = 0;
+    uint curr;
+    for (uint i = 1; i < self->num_rows; i++) {
+        row = get_next_row(self);
+        for (uint j = 0; j < self->nums_cols; j++) {
+            curr = sizes[j + 1];
+            if (row[j] == FREE) {
+                sizes[j + 1] = min((int[]){prev, sizes[j], sizes[j + 1]}, 3) + 1;
+                if (sizes[j + 1] > self->biggest_square->size) {
+                    self->biggest_square->setSize(self->biggest_square, sizes[j + 1]);
+                    self->biggest_square->setTopLeft(self->biggest_square, i - self->biggest_square->size + 1, j - self->biggest_square->size + 1);
+                }
+            } else {
+                sizes[j + 1] = 0;
+            }
+            prev = curr;
+        }
+        free(row);
+    }
 }
 
 static void go_to_start(Map* self);
