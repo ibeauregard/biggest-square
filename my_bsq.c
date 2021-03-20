@@ -14,17 +14,20 @@ typedef unsigned int uint;
 
 int my_bsq(const char* map_path)
 {
-    int map_fd = open(map_path, O_RDONLY);
-    char* row = readline(map_fd);
-    uint num_rows = _atoi(row);
-    free(row);
-
     // The biggest square data
     uint max_len = 0;
     uint top_left_i;
     uint top_left_j;
 
-    // Handling the 0th row
+    // Get the file descriptor
+    int map_fd = open(map_path, O_RDONLY);
+
+    // Get the number of rows
+    char* row = readline(map_fd);
+    uint num_rows = _atoi(row);
+    free(row);
+
+    // Handle the 0th row
     row = readline(map_fd);
     uint num_cols = _strlen(row);
     uint lengths[num_cols];
@@ -41,9 +44,9 @@ int my_bsq(const char* map_path)
     }
     free(row);
 
+    // Handle the rest of the rows (1, 2, ..., num_rows - 1)
     uint prev = 0;
     uint curr;
-    // Handling the rest of the rows (1, 2, ..., num_rows - 1)
     for (uint i = 1; i < num_rows; i++) {
         row = readline(map_fd);
         for (uint j = 0; j < num_cols; j++) {
@@ -63,11 +66,11 @@ int my_bsq(const char* map_path)
         free(row);
     }
 
-    // Go back to beginning of file, skip one line
+    // Now let's print the map!
+
+    // First, go back to beginning of file, skip one line
     lseek(map_fd, 0, SEEK_SET);
     readline(map_fd);
-
-    // Now let's print the map!
     for (uint i = 0; i < num_rows; i++) {
         row = readline(map_fd);
         for (uint j = 0; j < num_cols; j++) {
