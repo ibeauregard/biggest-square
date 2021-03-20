@@ -17,15 +17,15 @@ static void delete(Map* self);
 
 Map* new_map_from_path(const char* map_path)
 {
-    Map* map = malloc(sizeof (Map));
-    map->fd = open(map_path, O_RDONLY);
-    map->biggest_square = new_biggest_square();
-    set_num_rows(map);
+    Map* self = malloc(sizeof (Map));
+    self->fd = open(map_path, O_RDONLY);
+    self->biggest_square = new_biggest_square();
+    set_num_rows(self);
 
-    map->identifyBiggestSquare = &identifyBiggestSquare;
-    map->print = &print;
-    map->delete = &delete;
-    return map;
+    self->identifyBiggestSquare = &identifyBiggestSquare;
+    self->print = &print;
+    self->delete = &delete;
+    return self;
 }
 
 static char* get_next_row(Map* self);
