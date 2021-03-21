@@ -26,8 +26,8 @@ BiggestSquare* run(BsqFinder* self)
 {
     char* row = self->map->getNextRow(self->map);
     self->map->nums_cols = _strlen(row);
-    self->sizes = malloc((self->map->nums_cols + 1) * sizeof (uint));
-    for (uint i = 0; i < self->map->nums_cols + 1; i++) self->sizes[i] = 0;
+    self->size_tracker = malloc((self->map->nums_cols + 1) * sizeof (uint));
+    for (uint i = 0; i < self->map->nums_cols + 1; i++) self->size_tracker[i] = 0;
     handle_row(self, row);
     free(row);
 
@@ -43,15 +43,15 @@ void handle_row(BsqFinder* self, char* row)
 {
     uint prev = 0, curr;
     for (uint j = 0; j < self->map->nums_cols; j++) {
-        curr = self->sizes[j + 1];
+        curr = self->size_tracker[j + 1];
         if (row[j] == FREE) {
-            self->sizes[j + 1] = min((int[]){prev, self->sizes[j], self->sizes[j + 1]}, 3) + 1;
-            if (self->sizes[j + 1] > self->bsq->size) {
-                self->bsq->setSize(self->bsq, self->sizes[j + 1]);
+            self->size_tracker[j + 1] = min((int[]){prev, self->size_tracker[j], self->size_tracker[j + 1]}, 3) + 1;
+            if (self->size_tracker[j + 1] > self->bsq->size) {
+                self->bsq->setSize(self->bsq, self->size_tracker[j + 1]);
                 self->bsq->setBottomRight(self->bsq, self->row_index, j);
             }
         } else {
-            self->sizes[j + 1] = 0;
+            self->size_tracker[j + 1] = 0;
         }
         prev = curr;
     }
@@ -60,6 +60,6 @@ void handle_row(BsqFinder* self, char* row)
 
 void delete(BsqFinder* self)
 {
-    free(self->sizes);
+    free(self->size_tracker);
     free(self);
 }

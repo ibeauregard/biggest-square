@@ -7,7 +7,7 @@ typedef unsigned int uint;
 
 typedef struct s_bsq_finder {
     Map* map;
-    uint* sizes;
+    uint* size_tracker;
     uint row_index;
     BiggestSquare* bsq;
 
