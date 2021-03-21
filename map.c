@@ -7,6 +7,8 @@
 #include <unistd.h>
 #include <stdio.h>
 
+#define BSQ_MARKER 'x'
+
 static void set_num_rows(Map* self);
 static char* get_next_row(Map* self);
 static void identify_biggest_square(Map* self);
@@ -103,7 +105,7 @@ void print_one_biggest_square_row(Map* self)
     for (uint j = self->biggest_square->top_left->j;
             j < self->biggest_square->top_left->j + self->biggest_square->size;
             j++) {
-        row[j] = 'x';
+        row[j] = BSQ_MARKER;
     }
     printf("%s\n", row);
     free(row);
