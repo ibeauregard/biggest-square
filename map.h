@@ -11,6 +11,7 @@ typedef struct s_map {
     uint nums_cols;
     BiggestSquare *biggest_square;
 
+    char* (*getNextRow)(struct s_map* self);
     void (*identifyBiggestSquare)(struct s_map* self);
     void (*print)(struct s_map* self);
     void (*delete)(struct s_map* self);

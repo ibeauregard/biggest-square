@@ -11,6 +11,7 @@
 #define FREE '.'
 
 static void set_num_rows(Map* self);
+static char* get_next_row(Map* self);
 static void identify_biggest_square(Map* self);
 static void print(Map* self);
 static void delete(Map* self);
@@ -22,13 +23,12 @@ Map* new_map_from_path(const char* map_path)
     self->biggest_square = new_biggest_square();
     set_num_rows(self);
 
+    self->getNextRow = &get_next_row;
     self->identifyBiggestSquare = &identify_biggest_square;
     self->print = &print;
     self->delete = &delete;
     return self;
 }
-
-static char* get_next_row(Map* self);
 
 void set_num_rows(Map* self)
 {
