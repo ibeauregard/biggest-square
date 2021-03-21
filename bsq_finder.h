@@ -9,6 +9,7 @@ typedef struct s_bsq_finder {
     Map* map;
     uint* sizes;
     uint row_index;
+    BiggestSquare* bsq;
 
     BiggestSquare* (*run)(struct s_bsq_finder* self);
     void (*delete)(struct s_bsq_finder* self);
