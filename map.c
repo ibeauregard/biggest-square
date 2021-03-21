@@ -1,14 +1,11 @@
 #include "map.h"
+#include "bsq_finder.h"
 #include "utils/readline.h"
 #include "utils/_atoi.h"
-#include "utils/_strlen.h"
-#include "utils/min.h"
 #include <stdlib.h>
 #include <fcntl.h>
 #include <unistd.h>
 #include <stdio.h>
-
-#define FREE '.'
 
 static void set_num_rows(Map* self);
 static char* get_next_row(Map* self);
@@ -20,7 +17,6 @@ Map* new_map_from_path(const char* map_path)
 {
     Map* self = malloc(sizeof (Map));
     self->fd = open(map_path, O_RDONLY);
-    self->biggest_square = new_biggest_square();
     set_num_rows(self);
 
     self->getNextRow = &get_next_row;
@@ -42,43 +38,11 @@ char* get_next_row(Map* self)
     return readline(self->fd);
 }
 
-static void handle_row(Map* self, char* row, uint i, uint* sizes);
-
 void identify_biggest_square(Map* self)
 {
-    char* row;
-    // Handle the 0th row
-    row = get_next_row(self);
-    self->nums_cols = _strlen(row);
-    uint sizes[self->nums_cols + 1];
-    for (uint i = 0; i < self->nums_cols + 1; i++) sizes[i] = 0;
-    handle_row(self, row, 0, sizes);
-    free(row);
-
-    // Handle the rest of the rows (1, 2, ..., num_rows - 1)
-    for (uint i = 1; i < self->num_rows; i++) {
-        row = get_next_row(self);
-        handle_row(self, row, i, sizes);
-        free(row);
-    }
-}
-
-void handle_row(Map* self, char* row, uint i, uint* sizes)
-{
-    uint prev = 0, curr;
-    for (uint j = 0; j < self->nums_cols; j++) {
-        curr = sizes[j + 1];
-        if (row[j] == FREE) {
-            sizes[j + 1] = min((int[]){prev, sizes[j], sizes[j + 1]}, 3) + 1;
-            if (sizes[j + 1] > self->biggest_square->size) {
-                self->biggest_square->setSize(self->biggest_square, sizes[j + 1]);
-                self->biggest_square->setBottomRight(self->biggest_square, i, j);
-            }
-        } else {
-            sizes[j + 1] = 0;
-        }
-        prev = curr;
-    }
+    BsqFinder* finder = new_bsq_finder(self);
+    self->biggest_square = finder->run(finder);
+    finder->delete(finder);
 }
 
 static void go_to_start(Map* self);
