@@ -5,7 +5,7 @@
 
 #define FREE '.'
 
-static BiggestSquare* run(BsqFinder* self);
+static void run(BsqFinder* self);
 static void delete(BsqFinder* self);
 
 BsqFinder* new_bsq_finder(Map* map)
@@ -13,7 +13,6 @@ BsqFinder* new_bsq_finder(Map* map)
     BsqFinder* self = malloc(sizeof (BsqFinder));
     self->map = map;
     self->row_index = 0;
-    self->bsq = new_biggest_square();
 
     self->run = &run;
     self->delete = &delete;
@@ -23,7 +22,7 @@ BsqFinder* new_bsq_finder(Map* map)
 static void initialize_size_tracker(BsqFinder* self);
 static void handle_row(BsqFinder* self, char* row);
 
-BiggestSquare* run(BsqFinder* self)
+void run(BsqFinder* self)
 {
     char* row = self->map->getNextRow(self->map);
     self->map->nums_cols = _strlen(row);
@@ -37,7 +36,6 @@ BiggestSquare* run(BsqFinder* self)
         handle_row(self, row);
         free(row);
     }
-    return self->bsq;
 }
 
 void initialize_size_tracker(BsqFinder* self)
@@ -55,9 +53,9 @@ void handle_row(BsqFinder* self, char* row)
         curr = self->size_tracker[j + 1];
         if (row[j] == FREE) {
             self->size_tracker[j + 1] = min((int[]) {prev, self->size_tracker[j], self->size_tracker[j + 1]}, 3) + 1;
-            if (self->size_tracker[j + 1] > self->bsq->size) {
-                self->bsq->setSize(self->bsq, self->size_tracker[j + 1]);
-                self->bsq->setBottomRight(self->bsq, self->row_index, j);
+            if (self->size_tracker[j + 1] > self->map->bsq->size) {
+                self->map->bsq->setSize(self->map->bsq, self->size_tracker[j + 1]);
+                self->map->bsq->setBottomRight(self->map->bsq, self->row_index, j);
             }
         } else {
             self->size_tracker[j + 1] = 0;

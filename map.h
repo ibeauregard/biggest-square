@@ -10,7 +10,7 @@ typedef struct s_map {
     int fd;
     uint num_rows;
     uint nums_cols;
-    BiggestSquare *biggest_square;
+    BiggestSquare *bsq;
 
     char* (*getNextRow)(struct s_map* self);
     void (*identifyBiggestSquare)(struct s_map* self);

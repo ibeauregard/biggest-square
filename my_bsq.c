@@ -10,11 +10,10 @@ int my_bsq(const char* map_path)
     if (fatal_error) {
         return EXIT_FAILURE;
     }
-    if (map->num_rows == 0) {
-        return EXIT_SUCCESS;
+    if (map->num_rows >= 1) {
+        map->identifyBiggestSquare(map);
+        map->print(map);
     }
-    map->identifyBiggestSquare(map);
-    map->print(map);
     map->delete(map);
     return EXIT_SUCCESS;
 }

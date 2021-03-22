@@ -24,6 +24,7 @@ Map* new_map_from_path(const char* map_path, bool* fatal_error)
         return NULL;
     }
     set_num_rows(self);
+    self->bsq = new_biggest_square();
 
     self->getNextRow = &get_next_row;
     self->identifyBiggestSquare = &identify_biggest_square;
@@ -46,9 +47,9 @@ char* get_next_row(Map* self)
 
 void identify_biggest_square(Map* self)
 {
-    BsqFinder* finder = new_bsq_finder(self);
-    self->biggest_square = finder->run(finder);
-    finder->delete(finder);
+    BsqFinder* bsq_finder = new_bsq_finder(self);
+    bsq_finder->run(bsq_finder);
+    bsq_finder->delete(bsq_finder);
 }
 
 static void go_to_start(Map* self);
@@ -60,9 +61,9 @@ void print(Map* self)
 {
     go_to_start(self);
     skip_one_row(self);
-    uint start = 0, stop = self->biggest_square->top_left->i;
+    uint start = 0, stop = self->bsq->top_left->i;
     print_regular_rows_between(self, start, stop);
-    start = stop; stop = start + self->biggest_square->size;
+    start = stop; stop = start + self->bsq->size;
     print_biggest_square_rows_between(self, start, stop);
     start = stop; stop = self->num_rows;
     print_regular_rows_between(self, start, stop);
@@ -106,8 +107,8 @@ void print_biggest_square_rows_between(Map* self, uint start, uint stop)
 void print_one_biggest_square_row(Map* self)
 {
     char* row = get_next_row(self);
-    for (uint j = self->biggest_square->top_left->j;
-            j < self->biggest_square->top_left->j + self->biggest_square->size;
+    for (uint j = self->bsq->top_left->j;
+            j < self->bsq->top_left->j + self->bsq->size;
             j++) {
         row[j] = BSQ_MARKER;
     }
@@ -117,7 +118,7 @@ void print_one_biggest_square_row(Map* self)
 
 void delete(Map* self)
 {
-    self->biggest_square->delete(self->biggest_square);
+    self->bsq->delete(self->bsq);
     close(self->fd);
     free(self);
 }
