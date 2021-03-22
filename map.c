@@ -52,14 +52,14 @@ void identify_biggest_square(Map* self)
 }
 
 static void go_to_start(Map* self);
-static void skip_one_line(Map* self);
+static void skip_one_row(Map* self);
 static void print_regular_rows_between(Map* self, uint start, uint stop);
 static void print_biggest_square_rows_between(Map* self, uint start, uint stop);
 
 void print(Map* self)
 {
     go_to_start(self);
-    skip_one_line(self);
+    skip_one_row(self);
     uint start = 0, stop = self->biggest_square->top_left->i;
     print_regular_rows_between(self, start, stop);
     start = stop; stop = start + self->biggest_square->size;
@@ -73,7 +73,7 @@ void go_to_start(Map* self)
     lseek(self->fd, 0, SEEK_SET);
 }
 
-void skip_one_line(Map* self)
+void skip_one_row(Map* self)
 {
     free(get_next_row(self));
 }
