@@ -75,7 +75,7 @@ void go_to_start(Map* self)
 
 void skip_one_line(Map* self)
 {
-    get_next_row(self);
+    free(get_next_row(self));
 }
 
 static void print_one_regular_row(Map* self);
