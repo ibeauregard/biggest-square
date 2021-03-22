@@ -15,10 +15,14 @@ static void identify_biggest_square(Map* self);
 static void print(Map* self);
 static void delete(Map* self);
 
-Map* new_map_from_path(const char* map_path)
+Map* new_map_from_path(const char* map_path, bool* fatal_error)
 {
     Map* self = malloc(sizeof (Map));
-    self->fd = open(map_path, O_RDONLY);
+    if ((self->fd = open(map_path, O_RDONLY)) == -1) {
+        dprintf(STDERR_FILENO, "Could not open %s; aborting\n", map_path);
+        *fatal_error = true;
+        return NULL;
+    }
     set_num_rows(self);
 
     self->getNextRow = &get_next_row;

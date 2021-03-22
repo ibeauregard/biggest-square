@@ -2,6 +2,7 @@
 #define MAP_H
 
 #include "biggest_square.h"
+#include <stdbool.h>
 
 typedef unsigned int uint;
 
@@ -17,6 +18,6 @@ typedef struct s_map {
     void (*delete)(struct s_map* self);
 } Map;
 
-Map* new_map_from_path(const char* map_path);
+Map* new_map_from_path(const char* map_path, bool* fatal_error);
 
 #endif
