@@ -33,4 +33,6 @@ To generate a new map, run:
 
 ## Implementation notes
 
+This project is implemented with a dynamic programming approach. The time complexity is O(m * n), since we iterate twice through the map. The space complexity is O(n), since my only auxiliary structure is an array of size (n + 1).
+
 This project could obviously have been done in a more straightforward fashion. However, I decided I was going to play with a C coding style called "C+", where one emulates object-oriented programming with the C programming language.
