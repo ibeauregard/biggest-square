@@ -17,8 +17,8 @@ Compile by running `make` in the project's root directory
 `my_bsq` finds the largest possible square on a board while avoiding obstacles. The board is represented by a file passed as the program’s argument, respecting those constraints:
 
 - Its first line contains the number of lines on the board (and only that), "." (representing a free space) and "o" (representing an obstacle) are the only two allowed characters for the other lines
-- All the lines will be the same length (except the first one)
-- There will always be at least one line
+- All the lines will be the same length (except the first one), and that length is at least 1
+- The map will have at least one line
 - Each line is terminated by `\n`.
 
 IMPORTANT NOTE: The program assumes that those constraints are observed, and does no further error checking. 
