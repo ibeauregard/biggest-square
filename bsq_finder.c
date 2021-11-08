@@ -20,7 +20,7 @@ BsqFinder* new_bsq_finder(Map* map)
 }
 
 static void initialize_size_tracker(BsqFinder* self);
-static void handle_row(BsqFinder* self, char* row);
+static void handle_row(BsqFinder* self, const char* row);
 
 void run(BsqFinder* self)
 {
@@ -46,7 +46,7 @@ void initialize_size_tracker(BsqFinder* self)
     }
 }
 
-void handle_row(BsqFinder* self, char* row)
+void handle_row(BsqFinder* self, const char* row)
 {
     uint prev = 0, curr;
     for (uint j = 0; j < self->map->nums_cols; j++) {

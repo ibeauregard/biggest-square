@@ -3,6 +3,6 @@
 
 #include <stddef.h>
 
-int min(int array[], size_t array_size);
+int min(const int array[], size_t array_size);
 
 #endif
