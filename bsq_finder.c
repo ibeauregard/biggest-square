@@ -52,7 +52,7 @@ void handle_row(BsqFinder* self, const char* row)
     for (uint j = 0; j < self->map->nums_cols; j++) {
         curr = self->size_tracker[j + 1];
         if (row[j] == FREE) {
-            self->size_tracker[j + 1] = min((int[]) {prev, self->size_tracker[j], self->size_tracker[j + 1]}, 3) + 1;
+            self->size_tracker[j + 1] = min((uint[]) {prev, self->size_tracker[j], self->size_tracker[j + 1]}, 3) + 1;
             if (self->size_tracker[j + 1] > self->map->bsq->size) {
                 self->map->bsq->setSize(self->map->bsq, self->size_tracker[j + 1]);
                 self->map->bsq->setBottomRight(self->map->bsq, self->row_index, j);
